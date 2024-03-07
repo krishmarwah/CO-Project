@@ -1,3 +1,15 @@
+def dec_to_bin(n):
+    k=int(n);
+    s="";
+    c=0
+    while(k!=0):
+        c=c+1
+        t=k%2
+        s=str(t)+s;
+        k=k//2   
+    s="0"*(12-c)+s
+    d={s:c}
+    return d
 def Ins_R_Type(line):
 
 
