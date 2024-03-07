@@ -1,4 +1,4 @@
-def Ins_R_Type():
+def Ins_R_Type(line):
 
 
 
@@ -7,7 +7,7 @@ def Ins_R_Type():
 
 
 
-def Ins_I_Type():
+def Ins_I_Type(line):
 
 
 
@@ -15,7 +15,7 @@ def Ins_I_Type():
 
 
 
-def Ins_S_Type():
+def Ins_S_Type(line):
 
 
 
@@ -23,21 +23,21 @@ def Ins_S_Type():
 
 
 
-def Ins_B_Type():
+def Ins_B_Type(line):
 
 
 
 
 
 
-def Ins_U_Type():
+def Ins_U_Type(line):
 
 
 
 
 
 
-def Ins_J_Type():
+def Ins_J_Type(line):
 
 
 
@@ -87,17 +87,17 @@ funct7={"add":"0000000","sub":"0100000","sll":"0000000","slt":"0000000",
 set_Ins_Type=""
 
 if set_Ins_Type=="R":
-    Ins_R_Type()
+    Ins_R_Type(line)
 elif set_Ins_Type=="I":
-    Ins_I_Type()
+    Ins_I_Type(line)
 elif set_Ins_Type=="S":
-    Ins_S_Type()
+    Ins_S_Type(line)
 elif set_Ins_Type=="B":
-    Ins_B_Type()
+    Ins_B_Type(line)
 elif set_Ins_Type=="U":
-    Ins_U_Type()
+    Ins_U_Type(line)
 elif set_Ins_Type=="J":
-    Ins_J_Type()
+    Ins_J_Type(line)
 
 
     
