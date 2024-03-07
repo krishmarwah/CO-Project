@@ -1,15 +1,29 @@
-def dec_to_bin(n):
-    k=int(n);
-    s="";
-    c=0
-    while(k!=0):
-        c=c+1
-        t=k%2
-        s=str(t)+s;
-        k=k//2   
-    s="0"*(12-c)+s
-    d={s:c}
-    return d
+import math
+def dec_to_bin(n,x):
+    k=abs(int(n));
+    if(int(n)>=0):
+        s="";
+        c=0
+        while(k!=0):
+            c=c+1
+            t=k%2
+            s=str(t)+s;
+            k=k//2   
+        s="0"*(x-c)+s
+        return s
+    else:
+        p=int(math.log(k,2))+1
+        k=(2**p)-k
+        print(p)
+        s="";
+        c=0
+        while(k!=0):
+            c=c+1
+            t=k%2
+            s=str(t)+s;
+            k=k//2   
+        s="1"*(x-c)+s
+        return s
 
 
 def Ins_R_Type(line):
