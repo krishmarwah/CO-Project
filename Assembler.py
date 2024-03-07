@@ -9,12 +9,12 @@ def dec_to_bin(n,x):
             t=k%2
             s=str(t)+s;
             k=k//2   
-        s="0"*(x-c)+s
+        s="0"*(x-k)+s
         return s
     else:
         p=int(math.log(k,2))+1
         k=(2**p)-k
-        print(p)
+        print(k)
         s="";
         c=0
         while(k!=0):
@@ -22,9 +22,8 @@ def dec_to_bin(n,x):
             t=k%2
             s=str(t)+s;
             k=k//2   
-        s="1"*(x-c)+s
+        s="1"*(x-p)+'0'*(p-1)+s
         return s
-
 
 def Ins_R_Type(line):
     output=""
