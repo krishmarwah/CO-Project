@@ -10,14 +10,19 @@ def dec_to_bin(n):
     s="0"*(12-c)+s
     d={s:c}
     return d
+
+
 def Ins_R_Type(line):
-
-
-
-
-
-
-
+    output=""
+    div=line.split(" ")
+    rs=div[1].split(",")
+    output+=opcode[div[0]]
+    output+=regs[rs[0]]
+    output+=funct3[div[0]]
+    output+=regs[rs[1]]
+    output+=regs[rs[2]]
+    output+=funct7[div[0]]
+    return output
 
 def Ins_I_Type(line):
 
