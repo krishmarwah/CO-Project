@@ -65,12 +65,12 @@ def Ins_B_Type(line):
     div=line.split(" ")
     rs=div[1].split(",")
     im=dec_to_bin(rs[2],12)
-    output+=opcode[div[0]]
-    output+=im[7:]
-    output+=funct3[div[0]]
-    output+=regs[rs[0]]
-    output+=regs[rs[1]]
     output+=im[:7]
+    output+=regs[rs[1]]
+    output+=regs[rs[0]]
+    output+=funct3[div[0]]
+    output+=im[7:]
+    output+=opcode[div[0]]
     return output
 
 def Ins_U_Type(line):
