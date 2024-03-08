@@ -38,12 +38,16 @@ def Ins_R_Type(line):
     return output
 
 def Ins_I_Type(line):
-
-
-
-
-
-
+    output=""
+    div=line.split(" ")
+    rs=div[1].split(",")
+    output+=opcode[div[0]]
+    output+=regs[rs[0]]
+    output+=funct3[div[0]]
+    output+=regs[rs[1]]
+    imv=dec_to_bin(int(rs[2]),12)
+    output+=imv
+    return output
 
 def Ins_S_Type(line):
 
