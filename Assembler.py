@@ -137,19 +137,25 @@ S=["sb","sh","sw"]
 B=["beq","bne","blt","bge","bltu","bgeu"]
 J=["jal"]
 U=["lui","auipc"]
-output=""
+
 line="add s1,s2,s3"
-div=line.split(" ")
-if div[0] in opcode.keys():
-    if div[0] in R:
-        output=Ins_R_Type(line)
-    elif div[0] in I:
-        output=Ins_I_Type(line)
-    elif div[0] in S:
-        output=Ins_S_Type(line)
-    elif div[0] in B:
-        output=Ins_B_Type(line)
-    elif div[0] in U:
-        output=Ins_U_Type(line)
-    elif div[0] in J:
-        output=Ins_J_Type(line)
+input_lines=[line]
+output_lines=[]
+output=""
+
+
+for line in input_lines:
+    div=line.split(" ")
+    if div[0] in opcode.keys():
+        if div[0] in R:
+            output=Ins_R_Type(line)
+        elif div[0] in I:
+            output=Ins_I_Type(line)
+        elif div[0] in S:
+            output=Ins_S_Type(line)
+        elif div[0] in B:
+            output=Ins_B_Type(line)
+        elif div[0] in U:
+            output=Ins_U_Type(line)
+        elif div[0] in J:
+            output=Ins_J_Type(line)
