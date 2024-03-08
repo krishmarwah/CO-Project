@@ -58,35 +58,39 @@ def Ins_S_Type(line):
    k=dec_to_bin(imm,12)
    output+=k[0:7]+regs[rs2]+regs[rs1]+funct3[div[0].split()[0]]+k[7:12]+opcode[div[0].split()[0]]
    return output
-
-
-
-
-
-
-
+    
 def Ins_B_Type(line):
-
-
-
-
-
-
+    output=""
+    div=line.split(" ")
+    rs=div[1].split(",")
+    im=dec_to_bin(rs[2],12)
+    output+=opcode[div[0]]
+    output+=im[7:]
+    output+=funct3[div[0]]
+    output+=regs[rs[0]]
+    output+=regs[rs[1]]
+    output+=im[:7]
+    return output
+    
 def Ins_U_Type(line):
-
-
-
-
-
-
+    output=""
+    div=line.split(" ")
+    rs=div[1].split(",")
+    output+=opcode[div[0]]
+    output+=regs[rs[0]]
+    im=dec_to_bin(rs[1],20)
+    output+=im
+    return output
+    
 def Ins_J_Type(line):
-
-
-
-
-
-
-
+    output=""
+    div=line.split(" ")
+    rs=div[1].split(",")
+    output+=opcode[div[0]]
+    output+=regs[rs[0]]
+    im=dec_to_bin(int(rs[1]),20)
+    output+=im
+    return output
 
 regs={"zero":"00000","ra":"00001","sp":"00010","gp":"00011",
       "tp":"00100","t0":"00101","t1":"00110","t2":"00111","s0":"01000",
