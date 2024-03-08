@@ -14,7 +14,6 @@ def dec_to_bin(n,x):
     else:
         p=int(math.log(k,2))+1
         k=(2**p)-k
-        print(k)
         s="";
         c=0
         while(k!=0):
