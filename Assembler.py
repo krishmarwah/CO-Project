@@ -24,6 +24,7 @@ def dec_to_bin(n,x):
         s="1"*(x-c)+s
         return s
 
+
 def Ins_R_Type(line):
     output=""
     div=line.split(" ")
@@ -39,16 +40,6 @@ def Ins_R_Type(line):
 def Ins_I_Type(line):
     output=""
     div=line.split(" ")
-    if (div[0]=="lw"):
-        d=line.split(",")
-        rs2 = d[0].split()[1]  
-        rest = d[1].split("(")
-        rs1 = rest[1].split(")")[0] 
-        imm = rest[0]
-        k=dec_to_bin(imm,12)
-        print(k,regs[rs1],funct3[div[0].split()[0]],regs[rs2],opcode[div[0].split()[0]])
-        output+=k+regs[rs1]+funct3[div[0].split()[0]]+regs[rs2]+opcode[div[0].split()[0]]
-        return output
     rs=div[1].split(",")
     output+=opcode[div[0]]
     output+=regs[rs[0]]
@@ -59,15 +50,15 @@ def Ins_I_Type(line):
     return output
 
 def Ins_S_Type(line):
-   output=""
-   div=line.split(",")
-   rs2 = div[0].split()[1]  
-   rest = div[1].split("(")
-   rs1 = rest[1].split(")")[0] 
-   imm = rest[0]
-   k=dec_to_bin(imm,12)
-   output+=k[0:7]+regs[rs2]+regs[rs1]+funct3[div[0].split()[0]]+k[7:12]+opcode[div[0].split()[0]]
-   return output
+    output=""
+    div=line.split(",")
+    rs2 = div[0].split()[1]  
+    rest = div[1].split("(")
+    rs1 = rest[1].split(")")[0] 
+    imm = rest[0]
+    k=dec_to_bin(imm,12)
+    output+=k[0:7]+regs[rs2]+regs[rs1]+funct3[div[0].split()[0]]+k[7:12]+opcode[div[0].split()[0]]
+    return output
     
 def Ins_B_Type(line):
     output=""
@@ -81,7 +72,7 @@ def Ins_B_Type(line):
     output+=regs[rs[1]]
     output+=im[:7]
     return output
-    
+
 def Ins_U_Type(line):
     output=""
     div=line.split(" ")
@@ -91,7 +82,7 @@ def Ins_U_Type(line):
     im=dec_to_bin(rs[1],20)
     output+=im
     return output
-    
+
 def Ins_J_Type(line):
     output=""
     div=line.split(" ")
@@ -109,7 +100,6 @@ regs={"zero":"00000","ra":"00001","sp":"00010","gp":"00011",
       "a7":"10001","s2":"10010","s3":"10011","s4":"10100","s5":"10101",
       "s6":"10110","s7":"10111","s8":"11000","s9":"11001","s10":"11010",
       "s11":"11011","t3":"11100","t4":"11101","t5":"11110","t6":"11111"}
-output=""
 opcode={"add":"0110011","sub":"0110011","xor":"0110011","or":"0110011",
         "and":"0110011","sll":"0110011","srl":"0110011","sra":"0110011",
         "slt":"0110011","sltu":"0110011",
@@ -140,20 +130,26 @@ funct7={"add":"0000000","sub":"0100000","sll":"0000000","slt":"0000000",
         "slt":"0000000","sltu":"0000000",
         "srl":"0000000","xor":"0000000","or":"0000000","and":"0000000",
         }
-set_Ins_Type=""
-
-if set_Ins_Type=="R":
-    Ins_R_Type(line)
-elif set_Ins_Type=="I":
-    Ins_I_Type(line)
-elif set_Ins_Type=="S":
-    Ins_S_Type(line)
-elif set_Ins_Type=="B":
-    Ins_B_Type(line)
-elif set_Ins_Type=="U":
-    Ins_U_Type(line)
-elif set_Ins_Type=="J":
-    Ins_J_Type(line)
-
-
-    
+R=["add","sub","xor","or","and","sll","srl","sra","slt","sltu"]
+I=["addi","xori","ori","andi","slli","srli","srai","slti","sltiu","lb","lh",
+   "lw","lbu","lhu","jalr","ecall","ereak"]
+S=["sb","sh","sw"]
+B=["beq","bne","blt","bge","bltu","bgeu"]
+J=["jal"]
+U=["lui","auipc"]
+output=""
+line="add s1,s2,s3"
+div=line.split(" ")
+if div[0] in opcode.keys():
+    if div[0] in R:
+        output=Ins_R_Type(line)
+    elif div[0] in I:
+        output=Ins_I_Type(line)
+    elif div[0] in S:
+        output=Ins_S_Type(line)
+    elif div[0] in B:
+        output=Ins_B_Type(line)
+    elif div[0] in U:
+        output=Ins_U_Type(line)
+    elif div[0] in J:
+        output=Ins_J_Type(line)
