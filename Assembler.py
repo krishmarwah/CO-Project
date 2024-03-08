@@ -21,7 +21,7 @@ def dec_to_bin(n,x):
             t=k%2
             s=str(t)+s;
             k=k//2   
-        s="1"*(x-p)+'0'*(p-1)+s
+        s="1"*(x-c)+s
         return s
 
 def Ins_R_Type(line):
