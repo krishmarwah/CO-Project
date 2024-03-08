@@ -9,7 +9,7 @@ def dec_to_bin(n,x):
             t=k%2
             s=str(t)+s;
             k=k//2   
-        s="0"*(x-k)+s
+        s="0"*(x-c)+s
         return s
     else:
         p=int(math.log(k,2))+1
