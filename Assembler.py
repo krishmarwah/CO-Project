@@ -56,8 +56,6 @@ def Ins_S_Type(line):
    rs1 = rest[1].split(")")[0] 
    imm = rest[0]
    k=dec_to_bin(imm,12)
-   print(rs2,rs1,imm,k)
-   print(div[0].split()[0])
    output+=k[0:7]+regs[rs2]+regs[rs1]+funct3[div[0].split()[0]]+k[7:12]+opcode[div[0].split()[0]]
    return output
 
