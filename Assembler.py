@@ -60,19 +60,29 @@ def Ins_S_Type(line):
     output+=k[0:7]+regs[rs2]+regs[rs1]+funct3[div[0].split()[0]]+k[7:12]+opcode[div[0].split()[0]]
     return output[::-1]
     
-def Ins_B_Type(line):
+def Ins_B_Type(line,c):
     output=""
     div=line.split(" ")
     rs=div[1].split(",")
-    im=dec_to_bin(rs[2],12)
-    output+=im[:7]
-    output+=regs[rs[1]]
-    output+=regs[rs[0]]
-    output+=funct3[div[0]]
-    output+=im[7:]
-    output+=opcode[div[0]]
-    return output
-
+    if(rs[2]>-2049 and rs[2]<2048):
+        im=dec_to_bin(rs[2],12)
+        output+=im[:7]
+        output+=regs[rs[1]]
+        output+=regs[rs[0]]
+        output+=funct3[div[0]]
+        output+=im[7:]
+        output+=opcode[div[0]]
+        return output
+    elif (rs[2] in labels):
+        k=c-labels[rs[2]]
+        im=dec_to_bin(k,12)
+        output+=im[:7]
+        output+=regs[rs[1]]
+        output+=regs[rs[0]]
+        output+=funct3[div[0]]
+        output+=im[7:]
+        output+=opcode[div[0]]
+        return output
 def Ins_U_Type(line):
     output=""
     div=line.split(" ")
@@ -228,28 +238,34 @@ def find_errors(input_lines):
                     errors.append("Error: Immediate value " + k[1] + " out of range on line " + str(i+1))
     return errors, labels
 
-
+c=0
 errors = find_errors(input_lines)
 if errors:
     for error in errors:
         print(error)
 else:
-    if input_lines[-1].strip() == "beq zero,zero,0x00000000":
+    if input_lines[-1] != "beq zero,zero,0x00000000":
         print("Error: 'virtual_halt' instruction is missing at the end of the program")
     else:
         output_lines = []
         for line in input_lines:
             div = line.split(" ")
             if div[0] in R:
+                c+=4
                 output_lines += Ins_R_Type(line)
             elif div[0] in I:
+                c+=4
                 output_lines += Ins_I_Type(line)
             elif div[0] in S:
+                c+=4
                 output_lines += Ins_S_Type(line)
             elif div[0] in B:
-                output_lines += Ins_B_Type(line)
+                c+=4
+                output_lines += Ins_B_Type(line,c)
             elif div[0] in U:
+                c+=4
                 output_lines += Ins_U_Type(line)
             elif div[0] in J:
+                c+=4
                 output_lines += Ins_J_Type(line)
         print(output_lines)
