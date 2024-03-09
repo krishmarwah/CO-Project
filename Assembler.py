@@ -142,18 +142,114 @@ line="add s1,s2,s3"
 input_lines=[line]
 output_lines=[]
 
-for line in input_lines:
-    div=line.split(" ")
-    if div[0] in opcode.keys():
-        if div[0] in R:
-            output_lines=Ins_R_Type(line)
-        elif div[0] in I:
-            output_lines+=Ins_I_Type(line)
-        elif div[0] in S:
-            output_lines+=Ins_S_Type(line)
-        elif div[0] in B:
-            output_lines+=Ins_B_Type(line)
-        elif div[0] in U:
-            output_lines+=Ins_U_Type(line)
-        elif div[0] in J:
-            output_lines+=Ins_J_Type(line)
+def find_errors(input_lines):
+    errors = []
+    labels = {}
+    current_address = 0
+    for i in range(len(input_lines)):
+        line = input_lines[i].strip("\n")
+        if line[-1]==(':'):
+            label = line[:-1]
+            if label in labels:
+                errors.append("Error: Duplicate label '" + label + "' on line " + str(i+1))
+            else:
+                labels[label] = current_address
+        else:
+            div = line.split(" ")
+            current_address += 4
+            if div[0] in R:
+                k = div[1].split(',')
+                if div[0] not in opcode.keys():
+                    errors.append("Error: Invalid instruction '" + div[0] + "' on line " + str(i+1))
+                elif k[0] not in regs.keys():
+                    errors.append("Error: Invalid register '" + k[0] + "' on line " + str(i+1))
+                elif k[1] not in regs.keys():
+                    errors.append("Error: Invalid register '" + k[1] + "' on line " + str(i+1))
+                elif k[2] not in regs.keys():
+                    errors.append("Error: Invalid register '" + k[2] + "' on line " + str(i+1))
+            elif div[0] in I:
+                k = div[1].split(',')
+                if div[0] != 'lw':
+                    if div[0] not in opcode.keys():
+                        errors.append("Error: Invalid instruction '" + div[0] + "' on line " + str(i+1))
+                    elif k[0] not in regs.keys():
+                        errors.append("Error: Invalid register '" + k[0] + "' on line " + str(i+1))
+                    elif k[1] not in regs.keys():
+                        errors.append("Error: Invalid register '" + k[1] + "' on line " + str(i+1))
+                    elif int(k[2]) < -2**11 or int(k[2]) >= 2**11:
+                        errors.append("Error: Immediate value " + k[2] + " out of range on line " + str(i+1))
+                else:
+                    d = line.split(",")
+                    op = d[0].split()[0]
+                    rs2 = d[0].split()[1]
+                    rest = d[1].split("(")
+                    rs1 = rest[1].split(")")[0]
+                    imm = rest[0]
+                    if d[0] not in opcode.keys():
+                        errors.append("Error: Invalid instruction '" + d[0] + "' on line " + str(i+1))
+                    elif rs2 not in regs.keys():
+                        errors.append("Error: Invalid register '" + rs2 + "' on line " + str(i+1))
+                    elif rs1 not in regs.keys():
+                        errors.append("Error: Invalid register '" + rs1 + "' on line " + str(i+1))
+                    elif int(imm) < -2**11 or int(imm) >= 2**11:
+                        errors.append("Error: Immediate value " + imm + " out of range on line " + str(i+1))
+            elif div[0] in S:
+                d = line.split(",")
+                op = d[0].split()[0]
+                rs2 = d[0].split()[1]
+                rest = d[1].split("(")
+                rs1 = rest[1].split(")")[0]
+                imm = rest[0]
+                if d[0] not in opcode.keys():
+                    errors.append("Error: Invalid instruction '" + d[0] + "' on line " + str(i+1))
+                elif rs2 not in regs.keys():
+                    errors.append("Error: Invalid register '" + rs2 + "' on line " + str(i+1))
+                elif rs1 not in regs.keys():
+                    errors.append("Error: Invalid register '" + rs1 + "' on line " + str(i+1))
+                elif int(imm) < -2**11 or int(imm) >= 2**11:
+                    errors.append("Error: Immediate value " + imm + " out of range on line " + str(i+1))
+            elif div[0] in B:
+                k = div[1].split(',')
+                if div[0] not in opcode.keys():
+                    errors.append("Error: Invalid instruction '" + div[0] + "' on line " + str(i+1))
+                elif k[0] not in regs.keys():
+                    errors.append("Error: Invalid register '" + k[0] + "' on line " + str(i+1))
+                elif k[1] not in regs.keys():
+                    errors.append("Error: Invalid register '" + k[1] + "' on line " + str(i+1))
+                elif int(k[2]) < -2**11 or int(k[2]) >= 2**11:
+                    errors.append("Error: Immediate value " + k[2] + " out of range on line " + str(i+1))
+            elif div[0] in U or div[0] in J:
+                k = div[1].split(',')
+                if div[0] not in opcode.keys():
+                    errors.append("Error: Invalid instruction '" + div[0] + "' on line " + str(i+1))
+                elif k[0] not in regs.keys():
+                    errors.append("Error: Invalid register '" + k[0] + "' on line " + str(i+1))
+                elif int(k[1]) < -2**19 or int(k[1]) >= 2**19:
+                    errors.append("Error: Immediate value " + k[1] + " out of range on line " + str(i+1))
+    return errors, labels
+
+
+errors = find_errors(input_lines)
+if errors:
+    for error in errors:
+        print(error)
+else:
+    if input_lines[-1].strip() == "beq zero,zero,0x00000000":
+        print("Error: 'virtual_halt' instruction is missing at the end of the program")
+    else:
+        output_lines = []
+        for line in input_lines:
+            div = line.split(" ")
+            if div[0] in R:
+                output_lines += Ins_R_Type(line)
+            elif div[0] in I:
+                output_lines += Ins_I_Type(line)
+            elif div[0] in S:
+                output_lines += Ins_S_Type(line)
+            elif div[0] in B:
+                output_lines += Ins_B_Type(line)
+            elif div[0] in U:
+                output_lines += Ins_U_Type(line)
+            elif div[0] in J:
+                output_lines += Ins_J_Type(line)
+        print(output_lines)
