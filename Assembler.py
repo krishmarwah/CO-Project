@@ -96,22 +96,25 @@ def Ins_B_Type(line,c):
         return output
     
 
+
 def Ins_U_Type(line):
     output=""
     div=line.split(" ")
     rs=div[1].split(",")
-    im=dec_to_bin(rs[1],20)
-    output+=im
+    im=dec_to_bin(rs[1],32)
+    im=im[12:32]
+    output+=im[::-1]
     output+=regs[rs[0]]
     output+=opcode[div[0]]
-    return output
+    return output[::-1]
 
 def Ins_J_Type(line):
     output=""
     div=line.split(" ")
     rs=div[1].split(",")
-    im=dec_to_bin(int(rs[1]),20)
-    output+=im
+    im=dec_to_bin(int(rs[1]),32)
+    im=im[12:32]
+    output+=im[::-1]
     output+=regs[rs[0]]
     output+=opcode[div[0]]
     return output
