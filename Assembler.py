@@ -187,11 +187,9 @@ for i in range(len(input_lines)):
         if input_lines[i]=="":
             continue
         current_address += 4
-print(labels)
 for i in range(len(input_lines)):
     if ":" in input_lines[i]:
         input_lines[i]=input_lines[i].split(":")[1].strip()
-print(input_lines)
 def find_errors(input_lines):
     errors = []
     for i in range(len(input_lines)):
@@ -297,5 +295,6 @@ else:
             elif div[0] in J:
                 c+=4
                 output_lines.append( Ins_J_Type(line))
-        for i in output_lines:
-            fwrite.write(i+"\n")
+        for i in range(len(output_lines)-1):
+            fwrite.write(output_lines[i]+"\n")
+        fwrite.write(output_lines[len(output_lines)-1])
