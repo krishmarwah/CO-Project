@@ -12,15 +12,14 @@ def dec_to_bin(n,x):
         s="0"*(x-c)+s
         return s
     else:
-        p=int(math.log(k,2))+1
-        k=(2**p)-k
+        k=(2**x)-k
         s="";
         c=0
         while(k!=0):
             c=c+1
             t=k%2
             s=str(t)+s;
-            k=k//2   
+            k=k//2  
         s="1"*(x-c)+s
         return s
 
