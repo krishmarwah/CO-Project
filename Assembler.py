@@ -188,7 +188,6 @@ for i in range(len(input_lines)):
 for i in range(len(input_lines)):
     if ":" in input_lines[i]:
         input_lines[i]=input_lines[i].split(":")[1].strip()
-print(input_lines)
 def find_errors(input_lines):
     errors = []
     for i in range(len(input_lines)):
