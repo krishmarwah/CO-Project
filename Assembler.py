@@ -48,7 +48,7 @@ def Ins_I_Type(line):
         rs1 = rest[1].split(")")[0] 
         imm = rest[0]
         k=dec_to_bin(imm,12)
-        output+=k[0:11]+regs[rs1]+funct3[div[0].split()[0]]+regs[rs2]+opcode[div[0].split()[0]]
+        output+=k[0:12]+regs[rs1]+funct3[div[0].split()[0]]+regs[rs2]+opcode[div[0].split()[0]]
         return output
     rs=div[1].split(",")
     imv=dec_to_bin(int(rs[2]),12)
@@ -104,7 +104,7 @@ def Ins_U_Type(line):
     output+=im
     output+=regs[rs[0]]
     output+=opcode[div[0]]
-    return output[::-1]
+    return output
 
 def Ins_J_Type(line):
     output=""
@@ -204,7 +204,7 @@ def find_errors(input_lines):
                 elif int(k[2]) < -2**11 or int(k[2]) >= 2**11:
                     errors.append("Error: Immediate value " + k[2] + " out of range on line " + str(i+1))
             else:
-                d = i.split(",")
+                d = input_lines[i].split(",")
                 rs2 = d[0].split()[1]
                 rest = d[1].split("(")
                 rs1 = rest[1].split(")")[0]
@@ -216,7 +216,7 @@ def find_errors(input_lines):
                 elif int(imm) < -2**11 or int(imm) >= 2**11:
                     errors.append("Error: Immediate value " + imm + " out of range on line " + str(i+1))
         elif div[0] in S:
-            d = i.split(",")
+            d = input_lines[i].split(",")
             rs2 = d[0].split()[1]
             rest = d[1].split("(")
             rs1 = rest[1].split(")")[0]
@@ -256,10 +256,10 @@ c=0
 errors = find_errors(input_lines)
 if errors:
     for error in errors:
-        fwrite.write(i+'\n')
+        fwrite.write(error+'\n')
 elif pq:
     for k in pq:
-        fwrite.write(i+'\n')   
+        fwrite.write(k+'\n')   
 else:
     if input_lines[-1] != "beq zero,zero,0":
         fwrite.write("Error: 'virtual_halt' instruction is missing at the end of the program"+'\n')
