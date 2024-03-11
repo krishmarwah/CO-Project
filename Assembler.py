@@ -250,7 +250,7 @@ elif pq:
         fwrite.write(i+'\n')   
 else:
     if input_lines[-1] != "beq zero,zero,0":
-        print("Error: 'virtual_halt' instruction is missing at the end of the program")
+        fwrite.write("Error: 'virtual_halt' instruction is missing at the end of the program"+'\n')
     else:
         output_lines = []
         for line in input_lines:
