@@ -85,7 +85,7 @@ def Ins_B_Type(line,c):
         output+=opcode[div[0]]
         return output
     elif (im in labels):
-        k=c-labels[im]
+        k=c-labels[im]-4
         im=dec_to_bin(k,13)
         output+=im[0]+im[2:8]
         output+=regs[rs[1]]
@@ -184,7 +184,10 @@ for i in range(len(input_lines)):
              else:
                 labels[label] = current_address
     else:
+        if input_lines[i]=="":
+            continue
         current_address += 4
+print(labels)
 for i in range(len(input_lines)):
     if ":" in input_lines[i]:
         input_lines[i]=input_lines[i].split(":")[1].strip()
