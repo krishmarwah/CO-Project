@@ -74,7 +74,7 @@ def Ins_B_Type(line,c):
     output=""
     div=line.split(" ")
     rs=div[1].split(",")
-    im=div[2]
+    im=rs[2]
     if(im.isdigit()):
         im=dec_to_bin(int(im),12)
         output+=im[:7]
