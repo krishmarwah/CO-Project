@@ -153,13 +153,14 @@ input_lines=[line]
 output_lines=[]
 
 labels = {}
+pq=[]
 current_address=0
 for i in range(len(input_lines)):
     line = input_lines[i].strip("\n")
     if line[-1]==(':'):
         label = line[:-1]
         if label in labels:
-            errors.append("Error: Duplicate label '" + label + "' on line " + str(i+1))
+            pq.append("Error: Duplicate label '" + label + "' on line " + str(i+1))
         else:
             labels[label] = current_address
     else:
@@ -210,7 +211,7 @@ def find_errors(input_lines):
         rest = d[1].split("(")
         rs1 = rest[1].split(")")[0]
         imm = rest[0]
-        if d[0] not in opcode.keys():
+        if op not in opcode.keys():
             errors.append("Error: Invalid instruction '" + d[0] + "' on line " + str(i+1))
         elif rs2 not in regs.keys():
             errors.append("Error: Invalid register '" + rs2 + "' on line " + str(i+1))
@@ -249,6 +250,9 @@ errors = find_errors(input_lines)
 if errors:
     for error in errors:
         print(error)
+elif pq:
+    for k in pq:
+        print(k)        
 else:
     if input_lines[-1] != "beq zero,zero,0x00000000":
         print("Error: 'virtual_halt' instruction is missing at the end of the program")
