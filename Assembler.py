@@ -168,21 +168,27 @@ fread=open(fname,"r")
 input_lines=fread.readlines()
 output_lines=[]
 for i in range(len(input_lines)):
-    if input_lines[i][-1]=="\n":
-        input_lines[i]=input_lines[i][:-1]
+    input_lines[i]=input_lines[i].strip()
 labels = {}
 pq=[]
 current_address=0
 for i in range(len(input_lines)):
-    line = input_lines[i].strip("\n")
-    if line[-1]==(':'):
-        label = line[:-1]
+    if ":" in input_lines[i]:
+        label = input_lines[i].split(":")[0]
         if label in labels:
             pq.append("Error: Duplicate label '" + label + "' on line " + str(i+1))
         else:
-            labels[label] = current_address
+             if current_address != 0:
+                current_address+=4
+                labels[label] = current_address
+             else:
+                labels[label] = current_address
     else:
         current_address += 4
+for i in range(len(input_lines)):
+    if ":" in input_lines[i]:
+        input_lines[i]=input_lines[i].split(":")[1].strip()
+print(input_lines)
 def find_errors(input_lines):
     errors = []
     for i in range(len(input_lines)):
@@ -249,7 +255,8 @@ def find_errors(input_lines):
             elif int(k[1]) < -2**19 or int(k[1]) >= 2**19:
                 errors.append("Error: Immediate value " + k[1] + " out of range on line " + str(i+1))
         else:
-            errors.append("Error: Invalid instruction '" + div[0] + "' on line " + str(i+1))        
+            if div[0] not in labels:
+                errors.append("Error: Invalid instruction '" + div[0] + "' on line " + str(i+1))        
     return errors
 
 
