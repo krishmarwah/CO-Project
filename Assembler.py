@@ -1,8 +1,9 @@
+import sys
 import math
 def dec_to_bin(n,x):
     k=abs(int(n));
     if(int(n)>=0):
-        s="";
+        s=""
         c=0
         while(k!=0):
             c=c+1
@@ -163,7 +164,7 @@ B=["beq","bne","blt","bge","bltu","bgeu"]
 J=["jal"]
 U=["lui","auipc"]
 
-fname=input()
+fname=sys.argv[1]
 fread=open(fname,"r")
 input_lines=fread.readlines()
 output_lines=[]
@@ -260,8 +261,8 @@ def find_errors(input_lines):
                 errors.append("Error: Invalid instruction '" + div[0] + "' on line " + str(i+1))        
     return errors
 
-
-fwrite=open("output.txt","w")
+output_file=sys.argv[2]
+fwrite=open(output_file,"w")
 c=0
 errors = find_errors(input_lines)
 if errors:
