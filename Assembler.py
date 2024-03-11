@@ -102,19 +102,18 @@ def Ins_U_Type(line):
     div=line.split(" ")
     rs=div[1].split(",")
     im=dec_to_bin(rs[1],32)
-    im=im[12:32]
-    output+=im[::-1]
+    output+=im[0:20]
     output+=regs[rs[0]]
     output+=opcode[div[0]]
-    return output[::-1]
+    return output
 
 def Ins_J_Type(line):
     output=""
     div=line.split(" ")
     rs=div[1].split(",")
-    im=dec_to_bin(int(rs[1]),32)
-    im=im[12:32]
-    output+=im[::-1]
+    im=dec_to_bin(int(rs[1]),21)
+    imr=im[0]+im[10:20]+im[9]+im[1:9]
+    output+=imr
     output+=regs[rs[0]]
     output+=opcode[div[0]]
     return output
@@ -137,7 +136,7 @@ opcode={"add":"0110011","sub":"0110011","xor":"0110011","or":"0110011",
         "sb":"0100011","sh":"0100011","sw":"0100011",
         "beq":"1100011","bne":"1100011","blt":"1100011","bge":"1100011",
         "bltu":"1100011","bgeu":"1100011",
-        "jal":"0010111","jalr":"1100111","lui":"0110111","auipc":"0010111",
+        "jal":"1101111","jalr":"1100111","lui":"0110111","auipc":"0010111",
         "ecall":"1110011","ebreak":"1110011"}
 funct3={"add":"000","sub":"000","xor":"100","or":"110",
         "and":"111","sll":"001","srl":"101","sra":"101",
@@ -168,9 +167,9 @@ fname=input()
 fread=open(fname,"r")
 input_lines=fread.readlines()
 output_lines=[]
-for i in range(len(input_lines)-1):
-    input_lines[i]=input_lines[i][:-1]
-
+for i in range(len(input_lines)):
+    if input_lines[i][-1]=="\n":
+        input_lines[i]=input_lines[i][:-1]
 labels = {}
 pq=[]
 current_address=0
