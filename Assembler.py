@@ -123,7 +123,7 @@ opcode={"add":"0110011","sub":"0110011","xor":"0110011","or":"0110011",
         "sb":"0100011","sh":"0100011","sw":"0100011",
         "beq":"1100011","bne":"1100011","blt":"1100011","bge":"1100011",
         "bltu":"1100011","bgeu":"1100011",
-        "jal":"1101111","jalr":"1101111","lui":"0110111","auipc":"0010111",
+        "jal":"1101111","jalr":"1100111","lui":"0110111","auipc":"0010111",
         "ecall":"1110011","ebreak":"1110011"}
 funct3={"add":"000","sub":"000","xor":"100","or":"110",
         "and":"111","sll":"001","srl":"101","sra":"101",
@@ -244,12 +244,10 @@ c=0
 errors = find_errors(input_lines)
 if errors:
     for error in errors:
-        for i in error:
-            fwrite.write(i+'\n')
+        fwrite.write(i+'\n')
 elif pq:
     for k in pq:
-        for i in pq:
-            fwrite.write(i+'\n')   
+        fwrite.write(i+'\n')   
 else:
     if input_lines[-1] != "beq zero,zero,0":
         print("Error: 'virtual_halt' instruction is missing at the end of the program")
