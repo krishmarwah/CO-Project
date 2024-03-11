@@ -74,8 +74,9 @@ def Ins_B_Type(line,c):
     output=""
     div=line.split(" ")
     rs=div[1].split(",")
-    if(int(rs[2])>-2049 and int(rs[2])<2048):
-        im=dec_to_bin(rs[2],12)
+    im=div[2]
+    if(im.isdigit()):
+        im=dec_to_bin(int(im),12)
         output+=im[:7]
         output+=regs[rs[1]]
         output+=regs[rs[0]]
@@ -83,8 +84,8 @@ def Ins_B_Type(line,c):
         output+=im[7:]
         output+=opcode[div[0]]
         return output
-    elif (rs[2] in labels):
-        k=c-labels[rs[2]]
+    elif (im in labels):
+        k=c-labels[im]
         im=dec_to_bin(k,12)
         output+=im[:7]
         output+=regs[rs[1]]
