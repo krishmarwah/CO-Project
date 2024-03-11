@@ -183,8 +183,8 @@ for i in range(len(input_lines)):
         current_address += 4
 def find_errors(input_lines):
     errors = []
-    for i in range(len(input_lines)):
-        div = input_lines[i].split(" ")
+    for line in range(len(input_lines)):
+        div = input_lines[line].split(" ")
         
         if div[0] in R:
             k = div[1].split(',')
@@ -204,7 +204,7 @@ def find_errors(input_lines):
                 elif int(k[2]) < -2**11 or int(k[2]) >= 2**11:
                     errors.append("Error: Immediate value " + k[2] + " out of range on line " + str(i+1))
             else:
-                d = line.split(",")
+                d = i.split(",")
                 rs2 = d[0].split()[1]
                 rest = d[1].split("(")
                 rs1 = rest[1].split(")")[0]
@@ -216,7 +216,7 @@ def find_errors(input_lines):
                 elif int(imm) < -2**11 or int(imm) >= 2**11:
                     errors.append("Error: Immediate value " + imm + " out of range on line " + str(i+1))
         elif div[0] in S:
-            d = line.split(",")
+            d = i.split(",")
             rs2 = d[0].split()[1]
             rest = d[1].split("(")
             rs1 = rest[1].split(")")[0]
@@ -249,6 +249,7 @@ def find_errors(input_lines):
         else:
             errors.append("Error: Invalid instruction '" + div[0] + "' on line " + str(i+1))        
     return errors
+
 
 fwrite=open("output.txt","w")
 c=0
