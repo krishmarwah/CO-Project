@@ -40,6 +40,16 @@ def Ins_R_Type(line):
 def Ins_I_Type(line):
     output=""
     div=line.split(" ")
+    if (div[0]=='lw'):
+        output=""
+        div=line.split(",")
+        rs2 = div[0].split()[1]  
+        rest = div[1].split("(")
+        rs1 = rest[1].split(")")[0] 
+        imm = rest[0]
+        k=dec_to_bin(imm,12)
+        output+=k[0:11]+regs[rs1]+funct3[div[0].split()[0]]+regs[rs2]+opcode[div[0].split()[0]]
+        return output
     rs=div[1].split(",")
     imv=dec_to_bin(int(rs[2]),12)
     output+=imv
@@ -58,7 +68,8 @@ def Ins_S_Type(line):
     imm = rest[0]
     k=dec_to_bin(imm,12)
     output+=k[0:7]+regs[rs2]+regs[rs1]+funct3[div[0].split()[0]]+k[7:12]+opcode[div[0].split()[0]]
-    return output[::-1]
+    return output
+    
     
 def Ins_B_Type(line,c):
     output=""
