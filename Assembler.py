@@ -273,6 +273,6 @@ else:
             elif div[0] in J:
                 c+=4
                 output_lines.append( Ins_J_Type(line))
-       
+    if ((errors) and (pq)):
         for i in output_lines:
             fwrite.write(i+"\n")
