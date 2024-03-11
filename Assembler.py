@@ -148,9 +148,12 @@ B=["beq","bne","blt","bge","bltu","bgeu"]
 J=["jal"]
 U=["lui","auipc"]
 
-line="add s1,s2,s3"
-input_lines=[line]
+fname=input()
+fread=open(fname,"r")
+input_lines=fread.readlines()
 output_lines=[]
+for i in range(len(input_lines)-1):
+    input_lines[i]=input_lines[i][:-1]
 
 labels = {}
 pq=[]
