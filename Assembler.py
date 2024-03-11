@@ -239,15 +239,17 @@ def find_errors(input_lines):
             errors.append("Error: Invalid instruction '" + div[0] + "' on line " + str(i+1))        
     return errors
 
-
+fwrite=open("output.txt","w")
 c=0
 errors = find_errors(input_lines)
 if errors:
     for error in errors:
-        print(error)
+        for i in error:
+            fwrite.write(i+'\n')
 elif pq:
     for k in pq:
-        print(k)        
+        for i in pq:
+            fwrite.write(i+'\n')   
 else:
     if input_lines[-1] != "beq zero,zero,0":
         print("Error: 'virtual_halt' instruction is missing at the end of the program")
@@ -273,6 +275,6 @@ else:
             elif div[0] in J:
                 c+=4
                 output_lines.append( Ins_J_Type(line))
-        fwrite=open("output.txt","w")
+       
         for i in output_lines:
             fwrite.write(i+"\n")
