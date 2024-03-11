@@ -262,23 +262,25 @@ else:
     else:
         output_lines = []
         for line in input_lines:
+            output=""
             div = line.split(" ")
             if div[0] in R:
                 c+=4
-                output_lines += Ins_R_Type(line)
+                output+= Ins_R_Type(line)
             elif div[0] in I:
                 c+=4
-                output_lines += Ins_I_Type(line)
+                output+= Ins_I_Type(line)
             elif div[0] in S:
                 c+=4
-                output_lines += Ins_S_Type(line)
+                output+= Ins_S_Type(line)
             elif div[0] in B:
                 c+=4
-                output_lines += Ins_B_Type(line,c)
+                output+= Ins_B_Type(line,c)
             elif div[0] in U:
                 c+=4
-                output_lines += Ins_U_Type(line)
+                output= Ins_U_Type(line)
             elif div[0] in J:
                 c+=4
-                output_lines += Ins_J_Type(line)
+                output+= Ins_J_Type(line)
+            output_lines+=output
         print(output_lines)
