@@ -183,8 +183,8 @@ for i in range(len(input_lines)):
         current_address += 4
 def find_errors(input_lines):
     errors = []
-    for line in range(len(input_lines)):
-        div = input_lines[line].split(" ")
+    for i in range(len(input_lines)):
+        div = input_lines[i].split(" ")
         
         if div[0] in R:
             k = div[1].split(',')
