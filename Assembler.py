@@ -76,24 +76,25 @@ def Ins_B_Type(line,c):
     rs=div[1].split(",")
     im=rs[2]
     if(im.isdigit()):
-        im=dec_to_bin(int(im),12)
-        output+=im[:7]
+        im=dec_to_bin(int(im),13)
+        output+=im[0]+im[2:8]
         output+=regs[rs[1]]
         output+=regs[rs[0]]
         output+=funct3[div[0]]
-        output+=im[7:]
+        output+=im[8:12]+im[1]
         output+=opcode[div[0]]
         return output
     elif (im in labels):
         k=c-labels[im]
-        im=dec_to_bin(k,12)
-        output+=im[:7]
+        im=dec_to_bin(k,13)
+        output+=im[0]+im[2:8]
         output+=regs[rs[1]]
         output+=regs[rs[0]]
         output+=funct3[div[0]]
-        output+=im[7:]
+        output+=im[8:12]+im[1]
         output+=opcode[div[0]]
         return output
+
     
 
 
