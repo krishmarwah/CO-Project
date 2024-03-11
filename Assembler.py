@@ -64,7 +64,7 @@ def Ins_B_Type(line,c):
     output=""
     div=line.split(" ")
     rs=div[1].split(",")
-    if(rs[2]>-2049 and rs[2]<2048):
+    if(int(rs[2])>-2049 and int(rs[2])<2048):
         im=dec_to_bin(rs[2],12)
         output+=im[:7]
         output+=regs[rs[1]]
@@ -154,6 +154,8 @@ fname=input()
 fread=open(fname,"r")
 input_lines=fread.readlines()
 output_lines=[]
+for i in range(len(input_lines)-1):
+    input_lines[i]=input_lines[i][:-1]
 
 labels = {}
 pq=[]
@@ -271,4 +273,6 @@ else:
             elif div[0] in J:
                 c+=4
                 output_lines.append( Ins_J_Type(line))
-        print(output_lines)
+        fwrite=open("output.txt","w")
+        for i in output_lines:
+            fwrite.write(i+"\n")
