@@ -266,7 +266,7 @@ def find_errors(input_lines):
                 errors.append("Error: Invalid register '" + k[0] + "' on line " + str(i+1))
             elif int(k[1]) < -2**31 or int(k[1]) >= 2**31:
                 errors.append("Error: Immediate value " + k[1] + " out of range on line " + str(i+1))
-        elif div[0] in j :
+        elif div[0] in J :
             k = div[1].split(',')
             if k[0] not in regs.keys():
                 errors.append("Error: Invalid register '" + k[0] + "' on line " + str(i+1))
