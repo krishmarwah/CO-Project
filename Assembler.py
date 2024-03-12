@@ -86,7 +86,7 @@ def Ins_B_Type(line,c):
         output+=opcode[div[0]]
         return output
     elif (im in labels):
-        k=c-labels[im]-4
+        k=labels[im]-c+4
         im=dec_to_bin(k,13)
         output+=im[0]+im[2:8]
         output+=regs[rs[1]]
@@ -108,16 +108,26 @@ def Ins_U_Type(line):
     output+=opcode[div[0]]
     return output
 
-def Ins_J_Type(line):
+def Ins_J_Type(line,c):
     output=""
     div=line.split(" ")
     rs=div[1].split(",")
-    im=dec_to_bin(int(rs[1]),21)
-    imr=im[0]+im[10:20]+im[9]+im[1:9]
-    output+=imr
-    output+=regs[rs[0]]
-    output+=opcode[div[0]]
-    return output
+    im=rs[1]
+    if(im.isdigit()):
+        im=dec_to_bin(int(rs[1]),21)
+        imr=im[0]+im[10:20]+im[9]+im[1:9]
+        output+=imr
+        output+=regs[rs[0]]
+        output+=opcode[div[0]]
+        return output
+    elif (im in labels):
+        k=labels[im]-c+4
+        im=dec_to_bin(k,21)
+        imr=im[0]+im[10:20]+im[9]+im[1:9]
+        output+=imr
+        output+=regs[rs[0]]
+        output+=opcode[div[0]]
+        return output
 
 regs={"zero":"00000","ra":"00001","sp":"00010","gp":"00011",
       "tp":"00100","t0":"00101","t1":"00110","t2":"00111","s0":"01000",
@@ -245,17 +255,23 @@ def find_errors(input_lines):
                 errors.append("Error: Invalid register '" + k[1] + "' on line " + str(i+1))
             elif k[2].isdigit(): 
                 imm = int(k[2])
-                if imm < -2048 or imm >= 2048:
+                if imm < -4096 or imm >= 4096:
                     errors.append("Error: Immediate value " + str(imm) + " out of range on line " + str(i+1))
             elif k[2] not in labels:  
                 errors.append("Error: Label '" + k[2] + "' not found on line " + str(i+1))
     
-        elif div[0] in U or div[0] in J:
+        elif div[0] in U :
+            k = div[1].split(',')
+            if k[0] not in regs.keys():
+                errors.append("Error: Invalid register '" + k[0] + "' on line " + str(i+1))
+            elif int(k[1]) < -2**31 or int(k[1]) >= 2**31:
+                errors.append("Error: Immediate value " + k[1] + " out of range on line " + str(i+1))
+        elif div[0] in J :
             k = div[1].split(',')
             if k[0] not in regs.keys():
                 errors.append("Error: Invalid register '" + k[0] + "' on line " + str(i+1))
             elif int(k[1]) < -2**19 or int(k[1]) >= 2**19:
-                errors.append("Error: Immediate value " + k[1] + " out of range on line " + str(i+1))
+                errors.append("Error: Immediate value " + k[1] + " out of range on line " + str(i+1))        
         else:
             if div[0] not in labels:
                 errors.append("Error: Invalid instruction '" + div[0] + "' on line " + str(i+1))        
@@ -295,7 +311,7 @@ else:
                 output_lines.append( Ins_U_Type(line))
             elif div[0] in J:
                 c+=4
-                output_lines.append( Ins_J_Type(line))
+                output_lines.append( Ins_J_Type(line,c))
         for i in range(len(output_lines)-1):
             fwrite.write(output_lines[i]+"\n")
         fwrite.write(output_lines[len(output_lines)-1])
