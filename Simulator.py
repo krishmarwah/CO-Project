@@ -1,56 +1,44 @@
 def simulator(s):
+    #R-Type
     #add
     if (s[25:32]=='0110011' and s[17:20]=='000' and s[0:7]=='0000000'):
-        val[s[20:25]]=val[s[7:12]]+val[s[12:17]]
-        
+        regs[s[20:25]]=regs[s[7:12]]+regs[s[12:17]]
     #sub    
     elif (s[25:32]=='0110011' and s[17:20]=='000' and s[0:7]=='0100000'):
-        val[s[20:25]]=val[s[12:17]] - val[s[7:12]]   
-        
+        regs[s[20:25]]=regs[s[12:17]] - regs[s[7:12]]
     #sll    
     elif (s[25:32]=='0110011' and s[17:20]=='001' and s[0:7]=='0000000'):
-         l=val[s[7:12]]
-         val[s[20:25]]=val[s[12:17]] << l
-    
+         l=regs[s[7:12]]
+         regs[s[20:25]]=regs[s[12:17]] << l
     #slt     
     elif (s[25:32]=='0110011' and s[17:20]=='010' and s[0:7]=='0000000'):
-         if(val[s[12:17]] < val[s[7:12]]):
-             val[s[20:25]]=1
-         
+         if(regs[s[12:17]] < regs[s[7:12]]):
+             regs[s[20:25]]=1
     #sltu     
     elif (s[25:32]=='0110011' and s[17:20]=='011' and s[0:7]=='0000000'):
-         value_rs1=val[s[12:17]]
-         value_rs2=val[s[7:12]]
-         if (value_rs1 < 0 and value_rs2 < 0) or (value_rs1 >= 0 and value_rs2 >= 0):
-            if value_rs1 < value_rs2:
-                val[s[20:25]] = 1
-            elif value_rs1 >= 0 and value_rs2 < 0:
-                val[s[20:25]] = 1
-             
+         regsue_rs1=regs[s[12:17]]
+         regsue_rs2=regs[s[7:12]]
+         if (regsue_rs1 < 0 and regsue_rs2 < 0) or (regsue_rs1 >= 0 and regsue_rs2 >= 0):
+            if regsue_rs1 < regsue_rs2:
+                regs[s[20:25]] = 1
+            elif regsue_rs1 >= 0 and regsue_rs2 < 0:
+                regs[s[20:25]] = 1
     #xor     
     elif (s[25:32]=='0110011' and s[17:20]=='100' and s[0:7]=='0000000'):
-         val[s[20:25]]=val[s[7:12]] ^ val[s[12:17]]  
-         
+         regs[s[20:25]]=regs[s[7:12]] ^ regs[s[12:17]]  
     #srl     
     elif (s[25:32]=='0110011' and s[17:20]=='101' and s[0:7]=='0000000'):
         rd = s[20:25]
         rs1 = s[12:17]
         rs2 = s[7:12]
-        f = val[rs1] >> ((val[rs2]) & 0b11111)
-        val[rd] = f
-        
+        f = regs[rs1] >> ((regs[rs2]) & 0b11111)
+        regs[rd] = f
     #or    
     elif (s[25:32]=='0110011' and s[17:20]=='110' and s[0:7]=='0000000'):
-        val[s[20:25]]=val[s[7:12]] | val[s[12:17]]  
-        
+        regs[s[20:25]]=regs[s[7:12]] | regs[s[12:17]]  
     #and    
     elif (s[25:32]=='0110011' and s[17:20]=='111' and s[0:7]=='0000000'):
-        val[s[20:25]]=val[s[7:12]] & val[s[12:17]]   
-
-          
-
-
-def simulator(s):
+        regs[s[20:25]]=regs[s[7:12]] & regs[s[12:17]]   
     #I-Type
     if s[-7:]=="0000011" and s[-14:-11]=="010":
         return LW
@@ -119,7 +107,6 @@ def simulator(s):
         rd=s[20:25]
         imm=int(s[:20])
     
-        
 
 
 
