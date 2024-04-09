@@ -1,3 +1,4 @@
+
 def simulator(s):
     #R-Type
     #add
@@ -40,69 +41,83 @@ def simulator(s):
     elif (s[25:32]=='0110011' and s[17:20]=='111' and s[0:7]=='0000000'):
         regs[s[20:25]]=regs[s[7:12]] & regs[s[12:17]]   
     #I-Type
-    if s[-7:]=="0000011" and s[-14:-11]=="010":
+    #lw
+    elif s[-7:]=="0000011" and s[-14:-11]=="010":
         return LW
+    #addi
     elif s[-7:]=="0010011" and s[-14:-11]=="000":
         rs=s[12:17]
         imm=int(s[:12])
         rd=s[20:25]
         regs[rd]=regs[rs]+imm
+    #sltiu
     elif s[-7:]=="0010011" and s[-14:-11]=="011":
         rs=s[12:17]
         imm=int(s[:12])
         rd=s[20:25]
+    #jalr
     elif s[-7:]=="1100111" and s[-14:-11]=="000":
         rs=s[12:17]
         imm=int(s[:12])
         rd=s[20:25]
         regs[rd]=regs[]
     #S-Type
+    #sw
     elif s[-7:]=="0100011" and s[-14:-11]=="010":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
 
     #B-Type
+    #beq
     elif s[-7:]=="1100011" and s[-14:-11]=="000":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
 
+    #bne
     elif s[-7:]=="1100011" and s[-14:-11]=="001":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
 
+    #blt
     elif s[-7:]=="1100011" and s[-14:-11]=="100":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
 
+    #bge
     elif s[-7:]=="1100011" and s[-14:-11]=="101":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
 
+    #bltu
     elif s[-7:]=="1100011" and s[-14:-11]=="110":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
-
+    
+    #bgeu
     elif s[-7:]=="1100011" and s[-14:-11]=="111":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
 
     #U-Type
+    #lui
     elif s[-7:]=="0110111":
         rd=s[20:25]
         imm=int(s[:20])
-        
+    
+    #auipc
     elif s[-7:]=="0010111":
         rd=s[20:25]
         imm=int(s[:20])
     
     #J-Type
+    #jal
     elif s[-7:]=="1101111":
         rd=s[20:25]
         imm=int(s[:20])
