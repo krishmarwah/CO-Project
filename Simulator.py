@@ -43,7 +43,10 @@ def simulator(s):
     #I-Type
     #lw
     elif s[-7:]=="0000011" and s[-14:-11]=="010":
-        return LW
+        dest = regs[s[-12:-7]]
+        op1 = regs[s[-20:-15]]
+        imm = s[0:12]
+        regs[dest] = memory_locations[address_specifier[(regs[op1] + int(imm,2) - 65536)//4]]
    #addi
     elif s[-7:]=="0010011" and s[-15:-12:-1]=="000":
         rd=s[20:25]
