@@ -123,8 +123,9 @@ def simulator(s):
     
     #auipc
     elif s[-7:]=="0010111":
-        rd=s[20:25]
-        imm=int(s[:20])
+         rd = regs[s[-12:-7]]
+         imm = (twos_complement(s[0:20])) << 12
+         regs[rd] = imm + PC
     
     #J-Type
     #jal
