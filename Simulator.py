@@ -44,17 +44,21 @@ def simulator(s):
     #lw
     elif s[-7:]=="0000011" and s[-14:-11]=="010":
         return LW
-    #addi
-    elif s[-7:]=="0010011" and s[-14:-11]=="000":
-        rs=s[12:17]
-        imm=int(s[:12])
+   #addi
+    elif s[-7:]=="0010011" and s[-15:-12:-1]=="000":
         rd=s[20:25]
-        regs[rd]=regs[rs]+imm
+        op1=s[12:17]
+        imm=s[0:12]
+        regs[rd] = regs[op1] + twos_complement(imm)  
+        
+        
     #sltiu
-    elif s[-7:]=="0010011" and s[-14:-11]=="011":
-        rs=s[12:17]
-        imm=int(s[:12])
+    elif s[-7:]=="0010011" and s[-15:-12:-1]=="011":
         rd=s[20:25]
+        op1=s[12:17]
+        imm=s[0:12]
+        if regs[op1]<int(imm,2):
+            regs[rd]=1
     #jalr
     elif s[-7:]=="1100111" and s[-14:-11]=="000":
         rs=s[12:17]
