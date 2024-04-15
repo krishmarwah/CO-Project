@@ -110,10 +110,11 @@ def simulator(s):
         imm=int(s[:7]+s[20:25])
 
     #U-Type
-    #lui
-    elif s[-7:]=="0110111":
-        rd=s[20:25]
-        imm=int(s[:20])
+    #lui    
+    elif s[-7:]=="0110111" :
+        imm=(twos_complement(s[0:20])) << 12
+        rd = s[-12:-7]
+        regs[rd] = imm    
     
     #auipc
     elif s[-7:]=="0010111":
