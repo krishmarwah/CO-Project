@@ -26,6 +26,7 @@ def twos_complement(binary_str):
 
 
 def simulator(s):
+    global PC
     #R-Type
     #add
     if (s[25:32]=='0110011' and s[17:20]=='000' and s[0:7]=='0000000'):
@@ -90,10 +91,12 @@ def simulator(s):
             regs[rd]=1
     #jalr
     elif s[-7:]=="1100111" and s[-14:-11]=="000":
-        rs=s[12:17]
-        imm=int(s[:12])
-        rd=s[20:25]
-        regs[rd]=regs[]
+        dest = regs[s[-12:-7]]
+        imm = int(s[0:12],2)
+        op1 = regs[s[12:17]]
+        regs[dest] = PC + 4
+        PC = regs[op1] + imm   
+        PC = PC&0xFFFFFFFE
     #S-Type
     #sw
     elif s[-7:]=="0100011" and s[-15:-12:-1]=="010":
