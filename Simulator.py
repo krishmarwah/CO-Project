@@ -83,36 +83,50 @@ def simulator(s):
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
-
+        if(regs[rs1]==regs[rs2]):
+            PC+=imm
     #bne
     elif s[-7:]=="1100011" and s[-14:-11]=="001":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
+        if(regs[rs1]!=regs[rs2]):
+            PC+=imm
+        
 
     #blt
     elif s[-7:]=="1100011" and s[-14:-11]=="100":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
+        if(regs[rs1]<regs[rs2]):
+            PC+=imm
+        
 
     #bge
     elif s[-7:]=="1100011" and s[-14:-11]=="101":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
+        if(regs[rs1]>=regs[rs2]):
+            PC+=imm
 
     #bltu
     elif s[-7:]=="1100011" and s[-14:-11]=="110":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
+        if(regs[rs1]<regs[rs2]):
+            PC+=imm
+        
     
     #bgeu
     elif s[-7:]=="1100011" and s[-14:-11]=="111":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
+        if(regs[rs1]>=regs[rs2]):
+            PC+=imm
 
     #U-Type
     #lui    
