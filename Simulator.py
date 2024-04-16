@@ -1,3 +1,29 @@
+def sext(imm):
+    size=len(imm)
+    if imm[0] == '1':
+        return '1'*(32-size) + imm
+    else:
+        return '0'*(32-size) + imm
+def int_to_binary(n):
+    if n == 0:
+        return '0' * 32  # Special case: If n is 0, its binary representation is '000...000'
+    elif n < 0:
+        # If n is negative, convert it to its binary representation as if it were positive,
+        # then remove the leading '-0b' from the result and pad it with leading zeros to make it 32 bits.
+        return bin(n & 0xFFFFFFFF)[2:].zfill(32)  # 0xFFFFFFFF is used to ensure a 32-bit representation
+    else:
+        # Convert positive n to binary, remove the leading '0b', and pad it with leading zeros to make it 32 bits.
+        return bin(n)[2:].zfill(32)
+
+def twos_complement(binary_str):
+    # Check if the number is negative
+    if binary_str[0] == '1':
+        # Perform two's complement by flipping the bits and adding 1
+        inverted = ''.join('1' if bit == '0' else '0' for bit in binary_str)
+        return -(int(inverted, 2) + 1)
+    else:
+        return int(binary_str, 2)
+
 
 def simulator(s):
     #R-Type
@@ -79,14 +105,14 @@ def simulator(s):
 
     #B-Type
     #beq
-    elif s[-7:]=="1100011" and s[-14:-11]=="000":
+    elif s[-7:]=="1100011" and s[-15:-12:-1]=="000":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
         if(regs[rs1]==regs[rs2]):
             PC+=imm
     #bne
-    elif s[-7:]=="1100011" and s[-14:-11]=="001":
+    elif s[-7:]=="1100011" and s[-15:-12:-1]=="001":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
@@ -95,7 +121,7 @@ def simulator(s):
         
 
     #blt
-    elif s[-7:]=="1100011" and s[-14:-11]=="100":
+    elif s[-7:]=="1100011" and s[-15:-12:-1]=="100":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
@@ -104,7 +130,7 @@ def simulator(s):
         
 
     #bge
-    elif s[-7:]=="1100011" and s[-14:-11]=="101":
+    elif s[-7:]=="1100011" and s[-15:-12:-1]=="101":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
@@ -112,7 +138,7 @@ def simulator(s):
             PC+=imm
 
     #bltu
-    elif s[-7:]=="1100011" and s[-14:-11]=="110":
+    elif s[-7:]=="1100011" and s[-15:-12:-1]=="110":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
@@ -121,7 +147,7 @@ def simulator(s):
         
     
     #bgeu
-    elif s[-7:]=="1100011" and s[-14:-11]=="111":
+    elif s[-7:]=="1100011" and s[-15:-12:-1]=="111":
         rs1=s[12:17]
         rs2=s[7:12]
         imm=int(s[:7]+s[20:25])
