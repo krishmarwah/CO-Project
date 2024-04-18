@@ -244,7 +244,7 @@ def simulator(s,PC):
     #rvrs
     elif s[25:32]=="1111100":
         print("rvrs")
-        p=int_to_bin(s[12:17])
+        p=int_to_binary(s[12:17])
         p=p[::-1]
         regs[s[20:25]]= twos_complement(p)
     if not ISB:
