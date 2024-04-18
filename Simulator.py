@@ -285,7 +285,8 @@ while (i//4) < len(instructions):
         outfile.write("\n")
         break
     # m = int(input())
-    i = simulator(instructions[i],i)
+    if i!=-1:
+        i = simulator(instructions[i],i)
         # print(count)
     regs["00000"] = 0
     outfile.write(f"0b{int_to_binary(i)} ")
