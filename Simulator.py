@@ -228,6 +228,30 @@ def simulator(s,PC):
         PC = PC&0xFFFFFFFE
         ISB=True
         return PC
+
+    #bonus_instruction
+    #mul
+    elif s[25:32]=="1111111":
+        print("mul")
+        regs[s[20:25]]=regs[s[12:17]]*regs[s[7:12]]
+
+    #rst
+    elif s[25:32]=="1111110":
+        print("rst")
+        for i in regs:
+            regs[i]=0
+
+    #halt
+    elif s[25:32]=="1111101":
+        print("halt")
+        return -1;
+
+    #rvrs
+    elif s[25:32]=="1111100":
+        print("rvrs")
+        p=int_to_bin(s[12:17])
+        p=p[::-1]
+        regs[s[20:25]]= twos_complement(p)
     if not ISB:
         PC+=4
         return PC
