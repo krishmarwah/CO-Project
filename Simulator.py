@@ -7,19 +7,14 @@ def sext(imm):
         return '0'*(32-size) + imm
 def int_to_binary(n):
     if n == 0:
-        return '0' * 32  # Special case: If n is 0, its binary representation is '000...000'
+        return '0' * 32 
     elif n < 0:
-        # If n is negative, convert it to its binary representation as if it were positive,
-        # then remove the leading '-0b' from the result and pad it with leading zeros to make it 32 bits.
-        return bin(n & 0xFFFFFFFF)[2:].zfill(32)  # 0xFFFFFFFF is used to ensure a 32-bit representation
+        return bin(n & 0xFFFFFFFF)[2:].zfill(32)
     else:
-        # Convert positive n to binary, remove the leading '0b', and pad it with leading zeros to make it 32 bits.
         return bin(n)[2:].zfill(32)
 
 def twos_complement(binary_str):
-    # Check if the number is negative
     if binary_str[0] == '1':
-        # Perform two's complement by flipping the bits and adding 1
         inverted = ''.join('1' if bit == '0' else '0' for bit in binary_str)
         return -(int(inverted, 2) + 1)
     else:
