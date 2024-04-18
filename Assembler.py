@@ -128,7 +128,33 @@ def Ins_J_Type(line,c):
         output+=regs[rs[0]]
         output+=opcode[div[0]]
         return output
-
+def bonus_instruction(line):
+    output=""
+    d=line.split()
+    if(d[0]=="mul"):
+        output+="0"*7
+        p=d[1].split(',')
+        rd=p[0]
+        rs1=p[1]
+        rs2=p[2]
+        output+=regs[rs2]
+        output+=regs[rs1]
+        output+="0"*3
+        output+=regs[rd]
+        output+=opcode[d[0]]
+    elif (d[0]=="rst" or d[0]=="halt"):
+        output+="0"*25
+        output+=opcode[d[0]]
+    elif (d[0]=="rvrs"):
+        output+="0"*12
+        p=d[1].split(',')
+        rd=p[0]
+        rs=p[1]
+        output+=regs[rs]
+        output+="0"*3
+        output+=regs[rd]
+        output+=opcode[d[0]]
+    return output    
 regs={"zero":"00000","ra":"00001","sp":"00010","gp":"00011",
       "tp":"00100","t0":"00101","t1":"00110","t2":"00111","s0":"01000",
       "fp":"01000","s1":"01001","a0":"01010","a1":"01011",
@@ -148,7 +174,7 @@ opcode={"add":"0110011","sub":"0110011","xor":"0110011","or":"0110011",
         "beq":"1100011","bne":"1100011","blt":"1100011","bge":"1100011",
         "bltu":"1100011","bgeu":"1100011",
         "jal":"1101111","jalr":"1100111","lui":"0110111","auipc":"0010111",
-        "ecall":"1110011","ebreak":"1110011"}
+        "ecall":"1110011","ebreak":"1110011","mul":"1111111","rst":"1111110","halt":"1111101","rvrs":"1111100"}
 funct3={"add":"000","sub":"000","xor":"100","or":"110",
         "and":"111","sll":"001","srl":"101","sra":"101",
         "slt":"010","sltu":"011",
